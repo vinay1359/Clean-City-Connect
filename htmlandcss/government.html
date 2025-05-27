@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Government Dashboard</title>
+    <style>
+        body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 30px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    padding: 50px;
+    width: 90%;
+    max-width: 1200px;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+}
+
+h1 {
+    color: #3a1c71;
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 3em;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#ward-updates {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.ward {
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.ward::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transform: rotate(45deg);
+    transition: all 0.6s ease;
+}
+
+.ward:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.ward:hover::before {
+    top: 100%;
+    left: 100%;
+}
+
+.ward h3 {
+    color: #2575fc;
+    margin-top: 0;
+    font-size: 1.6em;
+    border-bottom: 3px solid #ecf0f1;
+    padding-bottom: 15px;
+    position: relative;
+}
+
+.ward h3::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 50%;
+    height: 3px;
+    background-color: #6a11cb;
+    transition: width 0.3s ease;
+}
+
+.ward:hover h3::after {
+    width: 100%;
+}
+
+.ward p {
+    color: #333;
+    margin: 15px 0;
+    font-size: 1.1em;
+}
+
+.rating {
+    font-size: 1.3em;
+    color: #f39c12;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.stars {
+    color: #f39c12;
+    font-size: 1.4em;
+    letter-spacing: 5px;
+}
+
+.penalty {
+    color: #e74c3c;
+    font-weight: bold;
+    font-size: 1.1em;
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: rgba(231, 76, 60, 0.1);
+}
+
+.asterisk {
+    color: #e74c3c;
+    font-weight: bold;
+    margin-left: 5px;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+#rule-breakers {
+    margin-top: 50px;
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+}
+
+#rule-breakers h2 {
+    color: #e74c3c;
+    border-bottom: 3px solid #ecf0f1;
+    padding-bottom: 15px;
+    font-size: 2em;
+    text-align: center;
+}
+
+#rule-breakers ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+#rule-breakers li {
+    margin-bottom: 15px;
+    color: #2c3e50;
+    font-size: 1.1em;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: rgba(231, 76, 60, 0.1);
+    transition: all 0.3s ease;
+}
+
+#rule-breakers li:hover {
+    transform: translateX(10px);
+    background-color: rgba(231, 76, 60, 0.2);
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 30px;
+        width: 95%;
+    }
+    
+    h1 {
+        font-size: 2.5em;
+    }
+    
+    #ward-updates {
+        grid-template-columns: 1fr;
+    }
+}
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Government Dashboard</h1>
+        <div id="ward-updates"></div>
+        <div id="rule-breakers"></div>
+    </div>
+    
+    <script>
+        function getStarRating(rating) {
+            const fullStars = Math.floor(rating);
+            const halfStar = rating % 1 >= 0.5 ? 1 : 0;
+            const emptyStars = 5 - fullStars - halfStar;
+            
+            return '★'.repeat(fullStars) + (halfStar ? '½' : '') + '☆'.repeat(emptyStars);
+        }
+
+        async function fetchWardUpdates() {
+    try {
+        const response = await fetch('http://localhost:3000/api/all-ward-updates');
+        const wardUpdates = await response.json();
+        
+        wardUpdates.sort((a, b) => a.wardNumber - b.wardNumber);
+        
+        const wardUpdatesHtml = wardUpdates.map(ward => `
+            <div class="ward">
+                <h3>Ward Number: ${ward.wardNumber}
+                    ${ward.missedUpdateCount > 0 ? '<span class="asterisk">*</span>' : ''}
+                    ${ward.lateResponses >= 1 ? '<span class="asterisk">**</span>' : ''}
+                </h3>
+                <p>Wardmail ID: ${ward._id}</p>
+                <p class="rating">Average Rating: ${ward.rating.toFixed(2)} 
+                    <span class="stars">${getStarRating(ward.rating)}</span>
+                </p>
+                ${ward.missedUpdateCount > 0 ? `<p class="penalty">Penalty: ₹${ward.missedUpdateCount * 100} (${ward.missedUpdateCount} missed update${ward.missedUpdateCount > 1 ? 's' : ''})</p>` : ''}
+                ${ward.lateResponses >= 1 ? '<p class="penalty">Penalty: ₹500 (Late responses)</p>' : ''}
+            </div>
+        `).join('');
+        
+        document.getElementById('ward-updates').innerHTML = wardUpdatesHtml;
+
+        const ruleBreakersList = wardUpdates.filter(ward => ward.missedUpdateCount > 0 || ward.lateResponses >= 1);
+        const ruleBreakerHtml = `
+            <h2>Rule Breakers:</h2>
+            <ul>
+                ${ruleBreakersList.map(ward => `
+                    <li>Ward ${ward.wardNumber}: 
+                        ${ward.missedUpdateCount > 0 ? `${ward.missedUpdateCount} missed update${ward.missedUpdateCount > 1 ? 's' : ''}` : ''} 
+                        ${ward.missedUpdateCount > 0 && ward.lateResponses >= 1 ? ' and ' : ''}
+                        ${ward.lateResponses >= 1 ? 'Late responses' : ''}
+                    </li>
+                `).join('')}
+            </ul>
+        `;
+        document.getElementById('rule-breakers').innerHTML = ruleBreakerHtml;
+    } catch (error) {
+        console.error('Error fetching ward updates:', error);
+        alert('Error fetching ward updates. Please try again later.');
+    }
+}
+
+fetchWardUpdates();
+    </script>
+</body>
+</html>

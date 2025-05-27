@@ -2,4 +2,4 @@
 /.env
 /.env.local
 /.vscode
-node_modules/
+miniprojectcode/node_modules/
