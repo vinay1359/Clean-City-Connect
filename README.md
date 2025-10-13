@@ -1,15 +1,15 @@
 
-# Clean City Connect 🌿
+# Clean City Connect 
 
 Connecting Communities for a Cleaner Bangalore
 
 
-## 📋 Overview
+##  Overview
 
 Clean City Connect is an innovative web-based platform designed to revolutionize waste management in Bangalore. With coverage across 200+ wards, our platform creates a seamless connection between government officials, ward members, and residents to ensure effective waste management and create a cleaner, greener city.
-## ✨ Key Features
+##  Key Features
 
-### 🔐 Multi-Level Access System
+###  Multi-Level Access System
 
 #### Resident Portal [Enables citizens to]
 
@@ -31,21 +31,22 @@ Clean City Connect is an innovative web-based platform designed to revolutionize
 - Statistical analysis and reporting
 - Policy implementation tools
 - Resource allocation management
-## 🚀 Getting Started
+  
+##  Getting Started
 
 - Step 1 : Visit Clean City Connect
 - Step 2 : Choose your user type
 - #### Resident, Ward Member, Government Official
 - Register/Login with appropriate credentials
 - Access features based on your user role
-## 📱 Screenshots
+## Screenshots
 
 [![App Screenshot](images/screenshot1.png)](images/screenshot1.png)
 [![App Screenshot](images/screenshot2.png)](images/screenshot2.png)
 [![App Screenshot](images/screenshot3.png)](images/screenshot3.png)
 
 
-## 🤝 Contributing
+##  Contributing
 
 #### We welcome contributions to improve Clean City Connect! Please follow these steps:
 
